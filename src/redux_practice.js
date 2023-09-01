@@ -1,4 +1,4 @@
-const {createStore} = require("redux")
+const {createStore, combineReducers} = require("redux")
 // state
 const initialCounterState = {
     count: 0,
@@ -66,7 +66,7 @@ const counterReducer = (state = initialCounterState, action) =>{
                 count: state.count + action.payload
             }
         default:
-            break;
+            return state;
     }
 }
 
@@ -79,23 +79,26 @@ const userReducer = (state = intialUsersState, action) =>{
                 count: state.count + 1
             }
         default:
-            break;
+            return state;
     }
 }
+
+ const rootReducer = combineReducers({
+     countR: counterReducer,
+     userR: userReducer
+ })
 //store
-// const store = createStore(counterReducer);
-// user store
-const store = createStore(userReducer);
+const store = createStore(rootReducer);
 
 store.subscribe(()=>{
     console.log(store.getState())
 })
 
 //dispatch action
-// store.dispatch(incrementCounter())
-// store.dispatch(incrementCounter())
-// store.dispatch(incrementCounter())
-// store.dispatch(decrementConunter())
-// store.dispatch(resetConunter())
-// store.dispatch(incrementCounterByValue(5))
+store.dispatch(incrementCounter())
+store.dispatch(incrementCounter())
+store.dispatch(incrementCounter())
+store.dispatch(decrementConunter())
+store.dispatch(resetConunter())
+store.dispatch(incrementCounterByValue(5))
 store.dispatch(adduser("shafiq"))
