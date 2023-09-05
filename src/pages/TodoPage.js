@@ -3,87 +3,92 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {addTodo,updateTodo, removeTodo} from "../redux/action/todoActions";
 import { v4 as uuidv4 } from 'uuid'; // Import uuidv4
-
+import './TodoPage.css'
 const TodoPage = () => {
-    const [newTodo, setNewTodo] = useState(""); // State to manage the new TODO input
-    const [selectedTodo, setSelectedTodo] = useState(null); // Track the selected TODO
-    const [isAdding, setIsAdding] = useState(true); // Track whether you are adding a new TODO
+    const [todoData, setTodoData] = useState({
+        newTodo: "",
+        selectedTodo: null,
+        isAdding: true,
+        editedTitle: "",
+    });
 
-    const [editedTitle, setEditedTitle] = useState(''); // Track the edited title
     const dispatch = useDispatch();
     const todos = useSelector((state) => state.todo.todos);
     const length = useSelector((state) => state.todo.todos.length);
-    const handleInputChange = (e) => {
-        setNewTodo(e.target.value);
-    };
-    const todo = {
-        id: length+1, // Generate a unique ID
-        title: newTodo,
-    };
+
     const handleAddTodo = () => {
+        const { newTodo } = todoData;
         if (newTodo.trim() !== "") {
+            const todo = {
+                id: length + 1,
+                title: newTodo,
+            };
             dispatch(addTodo(todo));
-            setNewTodo(""); // Clear the input field
+            setTodoData({ ...todoData, newTodo: "" });
         }
     };
 
     const handleEditTodo = (todo) => {
-        setIsAdding(false)
-        setSelectedTodo(todo); // Set the selected TODO
-        setEditedTitle(todo.title); // Initialize the edited title with the current title
+        setTodoData({
+            ...todoData,
+            isAdding: false,
+            selectedTodo: todo,
+            editedTitle: todo.title,
+        });
     };
 
     const handleSaveEdit = () => {
-        if (selectedTodo && editedTitle.trim() !== '') {
+        const { selectedTodo, editedTitle } = todoData;
+        if (selectedTodo && editedTitle.trim() !== "") {
             dispatch(updateTodo({ ...selectedTodo, title: editedTitle }));
-            setSelectedTodo(null); // Clear the selected TODO
-            setEditedTitle(''); // Clear the edited title
-            setIsAdding(true)
+            setTodoData({
+                ...todoData,
+                selectedTodo: null,
+                editedTitle: "",
+                isAdding: true,
+            });
         }
     };
+
     const handleRemoveTodo = (id) => {
         dispatch(removeTodo(id));
     };
-
     return (
-        <div>
-            <h1>TODO List</h1>
-            <div>
-                {isAdding ? (
-                    <>
-                        <input
-                            type="text"
-                            placeholder="Enter a new TODO"
-                            value={newTodo}
-                            onChange={handleInputChange}
-                        />
-                        <button onClick={handleAddTodo}>Add</button>
-                    </>
-                ) : (
-                    <>
-                        <input
-                            type="text"
-                            value={editedTitle}
-                            onChange={(e) => setEditedTitle(e.target.value)}
-                        />
-                        <button onClick={handleSaveEdit}>Save</button>
-                    </>
-                )}
-
+        <div className="todo-page">
+            <h1 className="todo-header">TODO List</h1>
+            <div className="input-container">
+                <input
+                    type="text"
+                    className="todo-input"
+                    value={todoData.isAdding ? todoData.newTodo : todoData.editedTitle}
+                    onChange={(e) =>
+                        todoData.isAdding
+                            ? setTodoData({ ...todoData, newTodo: e.target.value })
+                            : setTodoData({ ...todoData, editedTitle: e.target.value })
+                    }
+                />
+                <button
+                    className={`todo-button ${todoData.isAdding ? 'add-button' : 'save-button'}`}
+                    onClick={todoData.isAdding ? handleAddTodo : handleSaveEdit}
+                >
+                    {todoData.isAdding ? "Add" : "Save"}
+                </button>
             </div>
-
-            <ul>
+            <ul className="todo-list">
                 {todos.map((todo) => (
-                    <li key={todo.id}>
+                    <li key={todo.id} className="todo-item">
                         {todo.title}
-                        <button onClick={() => handleEditTodo(todo)}>Edit</button>
-                        <button onClick={() => handleRemoveTodo(todo.id)}>Remove</button>
-
+                        <button className="edit-button" onClick={() => handleEditTodo(todo)}>
+                            Edit
+                        </button>
+                        <button className="remove-button" onClick={() => handleRemoveTodo(todo.id)}>
+                            Remove
+                        </button>
                     </li>
                 ))}
             </ul>
-
         </div>
+
     );
 };
 

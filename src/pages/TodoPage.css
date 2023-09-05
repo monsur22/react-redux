@@ -1,0 +1,93 @@
+/* TodoPage.css */
+
+/* Container for the entire TodoPage */
+.todo-page {
+    font-family: Arial, sans-serif;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+}
+
+/* Header styling */
+.todo-header {
+    text-align: center;
+    color: #333;
+}
+
+/* Container for the input field and buttons */
+.input-container {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* Input field styling */
+.todo-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Styling for both "Add" and "Save" buttons */
+.todo-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+/* Styling for "Add" button */
+.add-button {
+    background-color: #007bff;
+    color: #fff;
+}
+
+/* Styling for "Save" button */
+.save-button {
+    background-color: #28a745;
+    color: #fff;
+}
+
+/* Styling for the list of todo items */
+.todo-list {
+    list-style: none;
+    padding: 0;
+}
+
+/* Styling for each todo item */
+.todo-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    padding: 10px;
+    margin-top: 10px;
+    background-color: #f9f9f9;
+}
+
+/* Styling for the "Edit" and "Remove" buttons in each todo item */
+.edit-button {
+    background-color: #007bff; /* Change the background color to your desired color */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-left: auto; /* This will position the button to the right side */
+}
+.remove-button {
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-left: 10px;
+}
