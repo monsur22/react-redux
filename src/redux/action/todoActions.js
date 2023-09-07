@@ -4,7 +4,7 @@ export const getTodo = () => ({
     type: actions.GET_TODO,
 });
 export const addTodo = (todo) => ({
-    type: actions.ADD_TODO,
+    type: actions.ADD_TO_CART,
     payload:  todo ,
 });
 export const updateTodo = (updatedTodo) => ({
